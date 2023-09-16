@@ -1,24 +1,55 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import images from "../../resources/images";
 import { horizontalScale, verticalScale } from "../../resources/metrics";
 import TextField from "../../components/TextField";
 import { colorBlack } from "../../resources/colors";
 import ButtonComponent from "../../components/ButtonComponent";
+import { connect, useDispatch } from "react-redux";
+import {
+  resetUserData,
+  saveUserData,
+} from "../../redux/actions/userDataAction";
+import studentLogin from "../../Function/LoginFunction";
 
-type Props = { navigation: any };
+type Props = {
+  navigation: any;
+  useData: any;
+  saveUserData: any;
+  resetUserData: any;
+};
 
 const Login = (props: Props) => {
+  const dispatch = useDispatch();
+  const [nis, setnis] = useState();
+  const [password, setpassword] = useState();
+  const handleLogin = async () => {
+    try {
+      const token = await studentLogin(nis, password, dispatch);
+      props.navigation.navigate('Homepage')
+      // If login is successful, navigate to the main screen or perform other actions
+    } catch (error) {
+      // Handle login error (display error message to the user, etc.)
+      Alert.alert("Error", error.message)
+      console.log("Login error:", error.message);
+    }
+  };
+ 
+
+ 
   return (
     <View style={styles.containerLogin}>
+      <ScrollView>
       <View style={styles.containerIcon}>
         <Image source={images.logoFirst} style={styles.logoImg} />
       </View>
       <Text style={styles.textLogin}>Selamat Datang Silahkan Masuk</Text>
       <View style={styles.containerInput}>
         <TextField
-          label={"Username"}
-          keyboardType={"default"}
+          label={"NIS"}
+          keyboardType={"default"} 
+          value={nis}
+          onChangeText={(text) => setnis(text)}
           secureTextEntry={false}
           variant="standard"
           color={"black"}
@@ -27,7 +58,8 @@ const Login = (props: Props) => {
       <View style={styles.containerInput}>
         <TextField
           label={"Password"}
-          secureTextEntry={false}
+          secureTextEntry={true}
+          onChangeText={(text) => setpassword(text)}
           keyboardType={"default"}
           variant="standard"
           color={"black"}
@@ -35,7 +67,11 @@ const Login = (props: Props) => {
       </View>
       <View style={styles.buttonContainer}>
         <ButtonComponent title={"Reset"} color={"red"} tintColor={"white"} />
-        <ButtonComponent title={"Login"} color={"black"} onPress={() => props.navigation.navigate('Homepage')} />
+        <ButtonComponent
+          title={"Login"}
+          color={"black"}
+          onPress={() => handleLogin()}
+        />
       </View>
       <View style={styles.containerTextBottom}>
         <Text style={styles.textLogin}>Belum Memiliki Akun ? </Text>
@@ -43,11 +79,21 @@ const Login = (props: Props) => {
           <Text style={styles.textLogin}>Daftar Disini</Text>
         </Pressable>
       </View>
+      </ScrollView>
     </View>
   );
 };
 
-export default Login;
+const mapDispatchToProps = {
+  saveUserData,
+  resetUserData,
+};
+
+const mapStateToProps = (state: { userData: { data: any } }) => ({
+  userData: state.userData.data,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   containerLogin: {
@@ -56,8 +102,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoImg: {
-    width: horizontalScale(100),
-    height: verticalScale(100),
+    width: horizontalScale(300),
+    height: verticalScale(200),
     resizeMode: "contain",
   },
   containerIcon: {

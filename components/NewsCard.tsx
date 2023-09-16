@@ -1,13 +1,13 @@
 import * as React from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
 
-type Props = { title: any; subtitle: any; isButton?: boolean };
+type Props = { title: any; subtitle: any; isButton?: boolean, imgSrc:any };
 const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />;
 const NewsCard = (props: Props) => {
   return (
     <Card style={styles.card}>
       <Card.Cover
-        source={{ uri: "https://picsum.photos/700" }}
+        source={props.imgSrc}
         style={styles.cover}
       />
       <Card.Content>

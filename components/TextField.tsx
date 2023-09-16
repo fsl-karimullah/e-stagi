@@ -10,20 +10,23 @@ type Props = {
   keyboardType: "default" | "numeric" | "email-address";
   secureTextEntry?: boolean;
   variant?: "standard" | "outlined";
+  onChangeText:any
 };
 
 const TextField = (props: Props) => {
   return (
-    <View style={{ marginHorizontal: 10 }}>
+    <View style={{ marginHorizontal: 10 }}> 
       <TextInput
         label={props.label}
         keyboardType={props.keyboardType}
         secureTextEntry={props.secureTextEntry}
         value={props.value}
+        onChangeText={props.onChangeText}
         variant={props.variant}
         color={props.color}
         helperText={props.helpertext}
         inputContainerStyle={styles.inputStyle}
+        
       />
     </View>
   );

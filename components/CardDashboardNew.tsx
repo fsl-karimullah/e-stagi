@@ -1,18 +1,18 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import images from '../resources/images'
 import { horizontalScale, verticalScale } from '../resources/metrics'
 
 
-type Props = {title:any, itemKey:any}
+type Props = {title:any, itemKey:any,onPress:any,imageSource:any}
 
 const CardDashboardNew = (props: Props) => {
   return (
     <View style={styles.containerContent} key={props.itemKey}>
-      <View style={styles.containerCard}>
-      <Image source={images.logoFirst} style={styles.cardIcon}  />  
+      <Pressable style={styles.containerCard} onPress={props.onPress}>
+      <Image source={props.imageSource} style={styles.cardIcon}  />  
       <Text style={styles.text}>{props.title}</Text>
-      </View> 
+      </Pressable> 
     </View> 
   )
 }  
