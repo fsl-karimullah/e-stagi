@@ -73,12 +73,12 @@ const Login = (props: Props) => {
           onPress={() => handleLogin()}
         />
       </View>
-      <View style={styles.containerTextBottom}>
+      {/* <View style={styles.containerTextBottom}>
         <Text style={styles.textLogin}>Belum Memiliki Akun ? </Text>
         <Pressable onPress={() => props.navigation.navigate("Register")}>
           <Text style={styles.textLogin}>Daftar Disini</Text>
         </Pressable>
-      </View>
+      </View> */}
       </ScrollView>
     </View>
   );
